@@ -35,7 +35,7 @@ public class NotesFragment extends Fragment
                              ViewGroup container, Bundle savedInstanceState)
     {
         //list of notes
-        static ArrayList<String> notes=new ArrayList<>();
+        ArrayList<String> notes=new ArrayList<>();
         //complete
         notesViewModel =
                 ViewModelProviders.of(this).get(NotesViewModel.class);

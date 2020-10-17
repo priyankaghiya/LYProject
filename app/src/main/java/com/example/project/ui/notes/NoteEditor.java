@@ -30,7 +30,7 @@ public class NoteEditor extends AppCompatActivity
 
         if(noteId!=-1)
         {
-            note_et.setText(NotesFragment.notes.get(noteId));
+//            note_et.setText(NotesFragment.notes.get(noteId));
         }
 
 
