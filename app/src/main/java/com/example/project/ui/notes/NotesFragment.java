@@ -29,13 +29,14 @@ public class NotesFragment extends Fragment
     Button note_btn;
     ArrayAdapter <String> arrayAdapter;
     private NotesViewModel notesViewModel;
+    public static ArrayList<String> notes =null;
     //complete
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState)
     {
         //list of notes
-        ArrayList<String> notes=new ArrayList<>();
+        notes=new ArrayList<>();
         //complete
         notesViewModel =
                 ViewModelProviders.of(this).get(NotesViewModel.class);
@@ -46,7 +47,9 @@ public class NotesFragment extends Fragment
         listView=(ListView)root.findViewById(R.id.listView);
         note_btn=(Button)root.findViewById(R.id.note_btn);
 
-        notes.add("Sample Note");
+        notes.add("Sample Note1");
+        notes.add("Sample Note2");
+        notes.add("Sample Note3");
 
         arrayAdapter=new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1,notes);
 
@@ -58,8 +61,16 @@ public class NotesFragment extends Fragment
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
             {
                 Intent intent=new Intent(getActivity(),NoteEditor.class);
-                intent.putExtra("noteId",i);
+                intent.putExtra("noteId",""+i);
                 startActivity(intent);
+            }
+        });
+
+        note_btn.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view) {
+
             }
         });
 

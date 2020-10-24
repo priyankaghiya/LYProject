@@ -203,7 +203,7 @@
             android:textSize="18dp"
             android:drawableLeft="@drawable/ic_baseline_edit_24"
             android:textColor="@color/cardview_light_background"
-            android:layout_marginLeft="-10dp">
+            >
 
         </Button>
 
@@ -213,11 +213,10 @@
             android:text="Change Password"
             android:gravity="center"
             android:background="@color/homepagecolor"
-            android:paddingLeft="10dp"
+            android:paddingLeft="20dp"
             android:textSize="18dp"
             android:drawableLeft="@drawable/ic_baseline_lock_24"
             android:textColor="@color/cardview_light_background"
-            android:layout_marginLeft="-10dp"
             android:layout_marginTop="10dp">
 
         </Button>
