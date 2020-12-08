@@ -1,6 +1,7 @@
 package com.example.project.ui.notes;
 
 import android.app.Dialog;
+import androidx.fragment.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyboardShortcutGroup;
@@ -19,7 +20,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
+
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -27,20 +28,22 @@ import com.example.project.MainActivity;
 import com.example.project.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class NotesFragment extends Fragment
 {
-
     // initializing the components
     static ListView note_lv;
     Button note_btn;
     static ArrayAdapter <String> arrayAdapter;
     private NotesViewModel notesViewModel;
     public static ArrayList<String> notes =null;
+    HashMap<String,String> map;
 
     EditText et_note_title,et_note_body;
-    Button note_dialog_save_button,note_dialog_cancel_button;
+    Button note_dialog_save_button,note_dialog_cancel_button,note_dialog_delete_button;
     //complete
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -65,10 +68,7 @@ public class NotesFragment extends Fragment
         note_dialog_cancel_button=root.findViewById(R.id.note_dialog_cancel_button);
         //complete
 
-        notes.add("Sample Note1");
-        notes.add("Sample Note2");
-        notes.add("Sample Note3");
-
+        notes.add("DEMO");
         arrayAdapter=new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1,notes);
         arrayAdapter.setNotifyOnChange(true);
         note_lv.setAdapter(arrayAdapter);
@@ -82,8 +82,16 @@ public class NotesFragment extends Fragment
 //                intent.putExtra("noteId",""+i);
 //                startActivity(intent);
 
+                String strKey="";
+                for(Map.Entry<String,String> entry: map.entrySet()){
+                    if(notes.get(i).equals(entry.getValue())){
+                        strKey = entry.getKey();
+                        break; //breaking because its one to one map
+                    }
+                }
 
-                openDialog(notes.get(i),"",i);
+
+                openDialog(notes.get(i),strKey,i);
 
             }
         });
@@ -97,14 +105,7 @@ public class NotesFragment extends Fragment
             }
         });
 
-
-
-
-
-        return root;
-
-
-
+       return root;
     }
 
     private void openDialog() {
@@ -123,16 +124,17 @@ public class NotesFragment extends Fragment
             @Override
             public void onClick(View v) {
 
-                //when click on save button how to set the data to the listView?
                 //also title of the dialog is not displayed in the output
 
                 String title=et_note_title.getText().toString();
                 String body=et_note_body.getText().toString();
+
+                map=new HashMap<>();
+                map.put(title,body);
+
+
                 Toast.makeText(getActivity(),""+title+" - "+body,Toast.LENGTH_LONG).show();
-
-                arrayAdapter.add(body);
-
-//                DatePicker.OnDateChangedListener();
+                arrayAdapter.add(map.get(title));
 
                 dialog.dismiss();
 
@@ -160,13 +162,10 @@ public class NotesFragment extends Fragment
         //complete
     }
 
-
-
-
-    private void openDialog(final String title, String description, final int position) {
+    private void openDialog(final String description, final String title, final int position) {
         final Dialog dialog=new Dialog(getActivity(),R.style.CustomDialogTheme);
         LayoutInflater layoutInflater=this.getLayoutInflater();
-        View customDialog=layoutInflater.inflate(R.layout.note_custom_dialog,null);
+        View customDialog=layoutInflater.inflate(R.layout.note_custom_dialog_listview,null);
 
         et_note_title=customDialog.findViewById(R.id.et_note_title);
         et_note_body=customDialog.findViewById(R.id.et_note_body);
@@ -175,35 +174,33 @@ public class NotesFragment extends Fragment
         et_note_body.setText(description);
 
         note_dialog_save_button=customDialog.findViewById(R.id.note_dialog_save_button);
-        note_dialog_cancel_button=customDialog.findViewById(R.id.note_dialog_cancel_button);
+        note_dialog_delete_button=customDialog.findViewById(R.id.note_dialog_delete_button);
 
 
         note_dialog_save_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                //when click on save button how to set the data to the listView?
                 //also title of the dialog is not displayed in the output
-                arrayAdapter.remove(title);
+                arrayAdapter.remove(description);
                 String updatedTitle=et_note_title.getText().toString();
                 String body=et_note_body.getText().toString();
+
+                //not able to update data app closes
+                //not able to update /click on the static notes only for title
+                map.replace(updatedTitle,body);
                 Toast.makeText(getActivity(),""+updatedTitle+" - "+body,Toast.LENGTH_LONG).show();
-
-
-                arrayAdapter.insert(body,position);
-//                DatePicker.OnDateChangedListener();
+                arrayAdapter.insert(map.get(updatedTitle),position);
 
                 dialog.dismiss();
-
-
             }
         });
 
-
-        note_dialog_cancel_button.setOnClickListener(new View.OnClickListener() {
+        note_dialog_delete_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.cancel();
+                arrayAdapter.remove(map.get(title));
+                dialog.dismiss();
             }
         });
 

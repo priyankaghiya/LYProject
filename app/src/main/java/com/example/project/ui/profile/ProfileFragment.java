@@ -37,11 +37,6 @@ public class ProfileFragment extends Fragment {
 //                 setSupportActionBar();
 //                setActionBar()
                 getActivity().setActionBar(toolbar);
-                
-
-
-
-
 
                 //complete
             }
