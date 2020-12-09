@@ -82,6 +82,7 @@ public class NotesFragment extends Fragment
 //                intent.putExtra("noteId",""+i);
 //                startActivity(intent);
 
+                //for finding the key
                 String strKey="";
                 for(Map.Entry<String,String> entry: map.entrySet()){
                     if(notes.get(i).equals(entry.getValue())){
