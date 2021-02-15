@@ -7,9 +7,9 @@
     android:orientation="vertical"
     tools:context=".ui.profile.ProfileFragment">
 
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar_layout"></include>
+<!--    <include-->
+<!--        android:id="@+id/toolbar"-->
+<!--        layout="@layout/toolbar_layout"></include>-->
 
 
     <LinearLayout

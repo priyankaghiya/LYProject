@@ -2,6 +2,8 @@ package com.example.project.ui.profile;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -15,6 +17,8 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.project.R;
+
+import java.util.zip.Inflater;
 
 public class ProfileFragment extends Fragment {
 
@@ -31,16 +35,24 @@ public class ProfileFragment extends Fragment {
             public void onChanged(@Nullable String s) {
 //                textView.setText(s);
 
+                setHasOptionsMenu(true);
 
                 //code block
-                 Toolbar toolbar=root.findViewById(R.id.toolbar);
+//                 Toolbar toolbar=root.findViewById(R.id.toolbar);
 //                 setSupportActionBar();
 //                setActionBar()
-                getActivity().setActionBar(toolbar);
+//                getActivity().setActionBar(toolbar);
+
 
                 //complete
             }
         });
         return root;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.bottom_nav_menu,menu);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 }

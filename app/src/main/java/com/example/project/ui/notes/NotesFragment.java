@@ -40,7 +40,7 @@ public class NotesFragment extends Fragment
     static ArrayAdapter <String> arrayAdapter;
     private NotesViewModel notesViewModel;
     public static ArrayList<String> notes =null;
-    HashMap<String,String> map;
+    HashMap<String,String> map=new HashMap<>();;
 
     EditText et_note_title,et_note_body;
     Button note_dialog_save_button,note_dialog_cancel_button,note_dialog_delete_button;
@@ -78,21 +78,7 @@ public class NotesFragment extends Fragment
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
             {
-//                Intent intent=new Intent(getActivity(),NoteEditor.class);
-//                intent.putExtra("noteId",""+i);
-//                startActivity(intent);
-
-                //for finding the key
-                String strKey="";
-                for(Map.Entry<String,String> entry: map.entrySet()){
-                    if(notes.get(i).equals(entry.getValue())){
-                        strKey = entry.getKey();
-                        break; //breaking because its one to one map
-                    }
-                }
-
-
-                openDialog(notes.get(i),strKey,i);
+                openDialog(arrayAdapter.getItem(i),map.get(arrayAdapter.getItem(i)),i);
 
             }
         });
@@ -130,12 +116,12 @@ public class NotesFragment extends Fragment
                 String title=et_note_title.getText().toString();
                 String body=et_note_body.getText().toString();
 
-                map=new HashMap<>();
+
                 map.put(title,body);
 
 
                 Toast.makeText(getActivity(),""+title+" - "+body,Toast.LENGTH_LONG).show();
-                arrayAdapter.add(map.get(title));
+                arrayAdapter.add(title);
 
                 dialog.dismiss();
 
@@ -163,7 +149,7 @@ public class NotesFragment extends Fragment
         //complete
     }
 
-    private void openDialog(final String description, final String title, final int position) {
+    private void openDialog(final String title, final String description, final int position) {
         final Dialog dialog=new Dialog(getActivity(),R.style.CustomDialogTheme);
         LayoutInflater layoutInflater=this.getLayoutInflater();
         View customDialog=layoutInflater.inflate(R.layout.note_custom_dialog_listview,null);
@@ -183,15 +169,15 @@ public class NotesFragment extends Fragment
             public void onClick(View v) {
 
                 //also title of the dialog is not displayed in the output
-                arrayAdapter.remove(description);
+                arrayAdapter.remove(title);
                 String updatedTitle=et_note_title.getText().toString();
                 String body=et_note_body.getText().toString();
 
                 //not able to update data app closes
                 //not able to update /click on the static notes only for title
-                map.replace(updatedTitle,body);
+                map.put(updatedTitle,body);
                 Toast.makeText(getActivity(),""+updatedTitle+" - "+body,Toast.LENGTH_LONG).show();
-                arrayAdapter.insert(map.get(updatedTitle),position);
+                arrayAdapter.insert(updatedTitle,position);
 
                 dialog.dismiss();
             }
